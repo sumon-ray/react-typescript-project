@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import { ModeToggle } from "../mode-toggle";
 
 const Navbar = () => {
@@ -11,7 +12,10 @@ const Navbar = () => {
             alt="Logo"
             className="h-8"
           />
-          <h1>logo</h1>
+          <NavLink to={'/'}>
+            <h1> Home</h1>
+          </NavLink>
+        
         </div>
       </div>
       <div className="flex space-x-4">
@@ -22,12 +26,13 @@ const Navbar = () => {
         <a href="/service" className="text-white hover:underline">
           Services
         </a>
+        <a href="/task" className="text-white hover:underline">
+          Task
+        </a>
         <a href="/login" className="text-white hover:underline">
           login
         </a>
-        <a href="#" className="text-white hover:underline">
-          Contact
-        </a>
+     
         <ModeToggle />
       </div>
     </nav>
