@@ -1,12 +1,17 @@
+import { ModeToggle } from "../mode-toggle";
+
 const Navbar = () => {
   return (
     <nav className="flex items-center justify-between p-4  bg-gray-800">
       <div className="text-white font-bold">
         {/* Logo */}
         <div className="flex items-center space-x-4">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlAv6B0jrzxijQH7S0nB3HIr5kZmKFwjc_VA&s" alt="Logo" className="h-8" />
-        <h1>logo</h1>
-
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlAv6B0jrzxijQH7S0nB3HIr5kZmKFwjc_VA&s"
+            alt="Logo"
+            className="h-8"
+          />
+          <h1>logo</h1>
         </div>
       </div>
       <div className="flex space-x-4">
@@ -23,6 +28,7 @@ const Navbar = () => {
         <a href="#" className="text-white hover:underline">
           Contact
         </a>
+        <ModeToggle />
       </div>
     </nav>
   );
