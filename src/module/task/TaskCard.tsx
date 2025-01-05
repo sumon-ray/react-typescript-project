@@ -1,7 +1,7 @@
 import { useAppDispatch } from "@/app/hook";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { toggleStateCompleted } from "@/features/task/taskSlice";
+import { deleteTask, toggleStateCompleted } from "@/features/task/taskSlice";
 import { cn } from "@/lib/utils";
 import { ITask } from "@/type";
 
@@ -20,13 +20,13 @@ export default function TaskCard({ task }: IProps) {
             "bg-green-500": task.priority==="Low",
             "bg-yellow-500": task.priority==="High",
           })}></div>
-          <h1>{task.title}</h1>
+          <h1 className={cn({"line-through": task.isCompleted})}>{task.title}</h1>
         </div>
         <div className="flex gap-3 items-center">
-          <Button variant="link" className="p-0 text-red-500">
+          <Button onClick={()=>dispatch(deleteTask(task.id))} variant="link" className="p-0 text-red-500">
             Trash2
           </Button>
-          <Checkbox onClick={()=>dispatch(toggleStateCompleted(task.id))} />
+          <Checkbox checked={task.isCompleted} onClick={()=>dispatch(toggleStateCompleted(task.id))} />
         </div>
       </div>
       <p className="mt-5">{task.description}</p>
