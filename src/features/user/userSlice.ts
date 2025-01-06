@@ -32,13 +32,13 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    // addUser: (state, action: PayloadAction<User>) => {
-    //   const userData = {
-    //     ...action.payload,
-    //     id: uuid(),
-    //   };
-    //   state.user.push(userData);
-    // },
+    addUser: (state, action: PayloadAction<User>) => {
+      const userData = {
+        ...action.payload,
+        id: uuid(),
+      };
+      state.user.push(userData);
+    },
   },
 });
 
@@ -49,7 +49,7 @@ return state.user.user
 }
 
 
-// export const { addUser } = userSlice.actions;
+export const { addUser } = userSlice.actions;
 
 export default userSlice.reducer;
 
