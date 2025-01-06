@@ -29,6 +29,9 @@ const Navbar = () => {
         <a href="/task" className="text-white hover:underline">
           Task
         </a>
+        <a href="/user" className="text-white hover:underline">
+         User
+        </a>
         <a href="/login" className="text-white hover:underline">
           login
         </a>
