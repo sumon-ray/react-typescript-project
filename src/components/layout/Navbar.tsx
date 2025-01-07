@@ -23,18 +23,18 @@ const Navbar = () => {
         {/* <a href="/home" className="text-white hover:underline">
           Home
         </a> */}
-        <a href="/service" className="text-white hover:underline">
+        <NavLink to="/service" className="text-white hover:underline">
           Services
-        </a>
-        <a href="/task" className="text-white hover:underline">
+        </NavLink>
+        <NavLink to="/task" className="text-white hover:underline">
           Task
-        </a>
-        <a href="/user" className="text-white hover:underline">
+        </NavLink>
+        <NavLink to="/user" className="text-white hover:underline">
          User
-        </a>
-        <a href="/login" className="text-white hover:underline">
+        </NavLink>
+        <NavLink to="/login" className="text-white hover:underline">
           login
-        </a>
+        </NavLink>
      
         <ModeToggle />
       </div>
