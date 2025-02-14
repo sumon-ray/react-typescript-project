@@ -1,6 +1,7 @@
 import App from "@/App";
 import Home from "@/pages/Home/Home";
 import Login from "@/pages/login/Login";
+import Register from "@/pages/Register/Register";
 import Service from "@/pages/Service/Service";
 import Task from "@/pages/Task/Task";
 import User from "@/pages/User/User";
@@ -32,6 +33,10 @@ const routes = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
 ]);
 
