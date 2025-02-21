@@ -4,8 +4,8 @@ import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, R
 import storage from 'redux-persist/lib/storage';
 import authReducer from '../features/auth/authSlice';
 import counterReducer from '../features/counter/counterSlice';
-import taskReducer from '../features/task/taskSlice';
 import userReducer from "../features/user/userSlice";
+import AllusersReducer from "../features/user/userSlice";
 const persistConfig = {
   key: 'root',
   storage,
@@ -16,9 +16,9 @@ export const store = configureStore({
   reducer: {
     [baseApi.reducerPath] : baseApi.reducer,
     counter: counterReducer,
-    todo: taskReducer,
     user: userReducer,
-    auth: persistedAuthReducer
+    auth: persistedAuthReducer,
+    users: AllusersReducer,
   },
   middleware: getDefaultMiddlewares => getDefaultMiddlewares(
     {

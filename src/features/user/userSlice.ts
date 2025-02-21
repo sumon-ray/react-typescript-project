@@ -7,8 +7,13 @@ export interface User {
   name: string;
 }
 
- export interface TUser {
+export interface TUser {
   user: User[];
+}
+
+export interface PasswordUpdate {
+  currentPassword: string;
+  newPassword: string;
 }
 
 const initialState: TUser = {
@@ -39,19 +44,19 @@ const userSlice = createSlice({
       };
       state.user.push(userData);
     },
-    deleteUser: (state, action:PayloadAction<string>)=>{
-      state.user = state.user.filter((user)=>user.id !== action.payload)
-    }
+    deleteUser: (state, action: PayloadAction<string>) => {
+      state.user = state.user.filter((user) => user.id !== action.payload);
+    },
+    updatePassword: (state, action: PayloadAction<PasswordUpdate>) => {
+      console.log("Password update requested:", action.payload);
+    },
   },
 });
 
+export const selectUsers = (state: RootState) => {
+  return state.user.user;
+};
 
-export const selectUsers = (state: RootState)=>{
-return state.user.user
-}
-
-
-export const { addUser, deleteUser } = userSlice.actions;
+export const { addUser, deleteUser, updatePassword } = userSlice.actions;
 
 export default userSlice.reducer;
-

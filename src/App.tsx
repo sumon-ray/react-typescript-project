@@ -3,6 +3,7 @@
 // import { Button } from "./components/ui/button";
 import { Outlet } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
+import MainLayout from "./components/MainLayout/MainLayout";
 
 const App = () => {
 //   const dispatch = useAppDispatch()
@@ -22,6 +23,7 @@ const App = () => {
 <div className="">
 <Navbar />
 <Outlet />
+  {/* <MainLayout /> */}
 </div>
 
   );
