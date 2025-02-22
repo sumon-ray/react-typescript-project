@@ -1,7 +1,6 @@
 import { useCreateOrderMutation } from "@/features/order/createOrder";
-import { useGetSingleProductQuery } from "@/features/products/getSingleProduct";
-import { useInitiatePaymentMutation } from "@/features/payment/paymentApi";
-import { RootState } from "@/redux/store";
+import { useGetSingleProductQuery } from "@/features/products/getSingleProduct"; // Assume this hook fetches product data
+import { RootState } from "@/redux/store"; // Add this import
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -11,27 +10,29 @@ const OrderForm = () => {
   const { id } = useParams<{ id: string }>();
   const [quantity, setQuantity] = useState<number>(1);
   const [paymentMethod, setPaymentMethod] = useState<string>("card");
-  const [product, setProduct] = useState<any>(null);
+  const [product, setProduct] = useState<any>(null); // You can define a better type here
   const [totalPrice, setTotalPrice] = useState<number>(0);
-  const [orderId, setOrderId] = useState<string>("");
   const [createOrder] = useCreateOrderMutation();
-  const [initiatePayment, { isLoading: isPaymentLoading }] = useInitiatePaymentMutation();
   const token = useSelector((state: RootState) => state.auth.token);
-
-  const { data: fetchedProduct, error, isLoading } = useGetSingleProductQuery(id ?? "");
+console.log(token)
+  const {
+    data: fetchedProduct,
+    error,
+    isLoading,
+  } = useGetSingleProductQuery(id ?? "");
 
   useEffect(() => {
     if (fetchedProduct) {
       setProduct(fetchedProduct);
-      setTotalPrice(fetchedProduct.price * quantity);
+      setTotalPrice(fetchedProduct.price * quantity); // Calculate total price on quantity change
     }
   }, [fetchedProduct, quantity]);
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newQuantity = Math.max(1, parseInt(e.target.value));
+    const newQuantity = Math.max(1, parseInt(e.target.value)); // Ensure at least 1 quantity
     if (product && newQuantity <= product.stock) {
       setQuantity(newQuantity);
-      setTotalPrice(newQuantity * product.price);
+      setTotalPrice(newQuantity * product.price); // Update total price
     } else {
       toast.error("Quantity exceeds available stock.");
     }
@@ -43,62 +44,44 @@ const OrderForm = () => {
       return;
     }
 
+    const orderData = {
+      user: "user_id_here", // You should retrieve the logged-in user's ID here
+      items: [
+        {
+          product: product._id,
+          quantity,
+          price: product.price,
+        },
+      ],
+      totalPrice,
+      paymentMethod,
+      status: "pending",
+    };
+
+    console.log(orderData);
+
+    // const token = localStorage.getItem("token");
+    // console.log(token);
+
     if (!token) {
       toast.error("You must be logged in to place an order.");
       return;
     }
 
     try {
-      const order_id = "ORDER" + Date.now();
-      setOrderId(order_id);
-
-      const orderData = {
-        user: "user_id_here", // Replace with actual user ID from state
-        items: [
-          {
-            product: product._id,
-            quantity,
-            price: product.price,
-          },
-        ],
-        totalPrice,
-        paymentMethod,
-        status: "pending",
-        order_id, // Attach the generated order ID
-      };
-
-      await createOrder({
+      //   const response = await axios.post("/api/order", orderData);
+      createOrder({
         orderData,
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // Attach the token to the request
         },
-      }).unwrap();
+      });
 
-      toast.success("Order placed successfully! Redirecting to payment...");
-
-      handlePayment(order_id, totalPrice);
+      toast.success("Order placed successfully!");
+      //   console.log(response.data);
+      // Redirect to the order confirmation page or another page
     } catch (error) {
       toast.error("Failed to place order. Please try again.");
-      console.error(error);
-    }
-  };
-
-  const handlePayment = async (order_id: string, amount: number) => {
-    try {
-      const response = await initiatePayment({
-        amount,
-        order_id,
-        customer_name: "Sumon", // Replace with actual user name
-        customer_phone: "01517162394", // Replace with actual user phone
-      }).unwrap();
-
-      if (response.checkout_url) {
-        window.location.href = response.checkout_url;
-      } else {
-        toast.error("Failed to initiate payment.");
-      }
-    } catch (error) {
-      toast.error("Payment initiation failed.");
       console.error(error);
     }
   };
@@ -146,6 +129,15 @@ const OrderForm = () => {
             <label htmlFor="payment-method" className="text-lg font-semibold">
               Payment Method
             </label>
+            {/* <select
+              id="payment-method"
+              value={paymentMethod}
+              onChange={(e) => setPaymentMethod(e.target.value)}
+              className="px-4 py-2 border rounded-lg mt-2"
+            >
+              <option value="card">SurjoPay (Card)</option>
+              Add more payment options here
+            </select> */}
           </div>
 
           <div className="my-4">
@@ -157,9 +149,8 @@ const OrderForm = () => {
           <button
             onClick={handleSubmitOrder}
             className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300"
-            disabled={isPaymentLoading}
           >
-            {isPaymentLoading ? "Processing..." : "Place Order & Pay"}
+            Place Order
           </button>
         </div>
       </div>
