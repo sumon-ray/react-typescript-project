@@ -4,14 +4,14 @@ const paymentApi= baseApi.injectEndpoints({
   endpoints: (builder) => ({
     initiatePayment: builder.mutation({
         query: (paymentData) => ({
-          url: "/api/pay/shurjopay-initiate",
+          url: "/initiate",
           method: "POST",
           body: paymentData,
         }),
       }),
       verifyPayment: builder.mutation({
         query: (orderId) => ({
-          url: "/api/shurjopay-verify",
+          url: "/verify",
           method: "POST",
           body: { order_id: orderId },
         }),

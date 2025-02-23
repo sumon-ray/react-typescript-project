@@ -11,29 +11,38 @@ const OrderForm = () => {
   const { id } = useParams<{ id: string }>();
   const [quantity, setQuantity] = useState<number>(1);
   const [paymentMethod, setPaymentMethod] = useState<string>("card");
-  const [product, setProduct] = useState<any>(null);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [orderId, setOrderId] = useState<string>("");
+
+  const { data: product, error, isLoading } = useGetSingleProductQuery(id ?? "");
+
   const [createOrder] = useCreateOrderMutation();
   const [initiatePayment, { isLoading: isPaymentLoading }] = useInitiatePaymentMutation();
+  
   const token = useSelector((state: RootState) => state.auth.token);
-
-  const { data: fetchedProduct, error, isLoading } = useGetSingleProductQuery(id ?? "");
+  const userId = useSelector((state: RootState) => state.auth.user?.id);
+  const userName = useSelector((state: RootState) => state.auth.user?.name);
+  const userPhone = useSelector((state: RootState) => state.auth.user?.phone);
 
   useEffect(() => {
-    if (fetchedProduct) {
-      setProduct(fetchedProduct);
-      setTotalPrice(fetchedProduct.price * quantity);
+    if (product) {
+      setTotalPrice(product.price * quantity);
     }
-  }, [fetchedProduct, quantity]);
+  }, [product, quantity]);
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newQuantity = Math.max(1, parseInt(e.target.value));
-    if (product && newQuantity <= product.stock) {
+    const newQuantity = Number(e.target.value);
+    
+    if (isNaN(newQuantity) || newQuantity < 1) {
+      toast.error("Quantity must be at least 1.");
+      return;
+    }
+
+    if (product && newQuantity > product.stock) {
+      toast.error("Quantity exceeds available stock.");
+    } else {
       setQuantity(newQuantity);
       setTotalPrice(newQuantity * product.price);
-    } else {
-      toast.error("Quantity exceeds available stock.");
     }
   };
 
@@ -43,7 +52,7 @@ const OrderForm = () => {
       return;
     }
 
-    if (!token) {
+    if (!token || !userId) {
       toast.error("You must be logged in to place an order.");
       return;
     }
@@ -53,7 +62,7 @@ const OrderForm = () => {
       setOrderId(order_id);
 
       const orderData = {
-        user: "user_id_here", // Replace with actual user ID from state
+        user: userId,
         items: [
           {
             product: product._id,
@@ -64,19 +73,28 @@ const OrderForm = () => {
         totalPrice,
         paymentMethod,
         status: "pending",
-        order_id, // Attach the generated order ID
+        order_id,
       };
 
-      await createOrder({
+      if (!token) {
+        toast.error("You must be logged in to place an order.");
+        return;
+      }
+
+      // Creating the order
+      const createOrderResponse = await createOrder({
         orderData,
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // Attach the token to the request
         },
-      }).unwrap();
+      }).unwrap();  // Use unwrap to handle any errors from the mutation
 
-      toast.success("Order placed successfully! Redirecting to payment...");
+      if (createOrderResponse) {
+        toast.success("Order placed successfully!");
 
-      handlePayment(order_id, totalPrice);
+        // Proceed to payment initiation
+        handlePayment(order_id, totalPrice);
+      }
     } catch (error) {
       toast.error("Failed to place order. Please try again.");
       console.error(error);
@@ -88,8 +106,8 @@ const OrderForm = () => {
       const response = await initiatePayment({
         amount,
         order_id,
-        customer_name: "Sumon", // Replace with actual user name
-        customer_phone: "01517162394", // Replace with actual user phone
+        customer_name: userName || "Unknown User",
+        customer_phone: userPhone || "Unknown Phone",
       }).unwrap();
 
       if (response.checkout_url) {
@@ -146,6 +164,28 @@ const OrderForm = () => {
             <label htmlFor="payment-method" className="text-lg font-semibold">
               Payment Method
             </label>
+            <div className="flex space-x-4 mt-2">
+              <label className="cursor-pointer">
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="card"
+                  checked={paymentMethod === "card"}
+                  onChange={() => setPaymentMethod("card")}
+                />
+                Card
+              </label>
+              <label className="cursor-pointer">
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="cash"
+                  checked={paymentMethod === "cash"}
+                  onChange={() => setPaymentMethod("cash")}
+                />
+                Cash on Delivery
+              </label>
+            </div>
           </div>
 
           <div className="my-4">
