@@ -1,27 +1,86 @@
-# React + TypeScript + Vite
+# 🚴‍♂️ CarStore
+# Live Link: https://car-store-frontend-rose.vercel.app/
+## 📌 Overview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The **Bicycle Store Application** is an intuitive e-commerce platform designed for seamless bicycle purchases. It features role-based authentication, product management, and secure payments to ensure a smooth and secure user experience.
 
-Currently, two official plugins are available:
+## ✨ Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 🔐 Authentication & Security
 
-## Expanding the ESLint configuration
+- Secure user registration & login (name, email, password).
+- Passwords are **hashed** before storage.
+- **Role-based access** (Customers & Admins).
+- **JWT Authentication** for user sessions.
+- Logout removes JWT token and redirects to login.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### 🌍 Public Pages
 
-- Configure the top-level `parserOptions` property like this:
+#### 🏠 Home
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+- **Navbar**: Logo, menu links, login/signup buttons.
+- **Hero Banner**: Featured promotions & special offers.
+- **Featured Bicycles**: Displays up to 6 products with a "View All" option.
+- **Extra Section**: Testimonials & reviews.
+- **Footer**: Contact details & social links.
+
+#### 🚲 Bicycles Page
+
+- **Search & Filters**: Search by brand, name, category & price.
+- **Dynamic Listings**: Updates based on user input.
+- **Detailed Bicycle Cards**: Name, brand, model, price & category.
+
+#### 📄 Bicycle Details Page
+
+- Displays product image, specs, and pricing.
+- "Buy Now" button redirects to the checkout page.
+
+#### ℹ️ About Page
+
+- Store mission & brand information.
+
+### 🔒 Private Routes
+
+#### 🛒 Checkout Page
+
+- Users can purchase bicycles securely.
+- **Stock Validation**: Orders are limited to available inventory.
+- **Order Summary**: Product details, user info, total price, and payment method.
+- **Payment Integration**: Supports SurjoPay, Stripe, etc.
+
+#### 📊 Dashboard
+
+- **User Dashboard**: View order history, update profile & change password securely.
+
+---
+
+## 🔧 Tech Stack
+
+- **Frontend:** React.js, Tailwind CSS, Redux, Typescript
+- **Backend:** Node.js, Express.js, Typescript
+- **Database:** MongoDB
+- **Hosting & Deployment:** Vercel
+- **Payment Gateway:** Stripe
+
+## 🚀 Installation & Setup
+
+### 🖥 Backend
+
+```sh
+cd server
+npm install
+npm start
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### 🌐 Frontend
+
+```sh
+cd client
+npm install
+npm start
+```
+
+## 🌐 Live Demo
+
+
+
