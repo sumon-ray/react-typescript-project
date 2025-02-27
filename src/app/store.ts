@@ -3,7 +3,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import authReducer from '../features/auth/authSlice';
-import counterReducer from '../features/counter/counterSlice';
 import userReducer from "../features/user/userSlice";
 import AllusersReducer from "../features/user/userSlice";
 const persistConfig = {
@@ -15,7 +14,6 @@ const persistedAuthReducer = persistReducer(persistConfig, authReducer)
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath] : baseApi.reducer,
-    counter: counterReducer,
     user: userReducer,
     auth: persistedAuthReducer,
     users: AllusersReducer,
