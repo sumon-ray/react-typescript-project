@@ -4,7 +4,7 @@ const updatePassword = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     updatePassword: builder.mutation({
       query: (product) => ({
-        url: "/api/update-password",
+        url: "/api/auth/update-password",
         method: "PATCH",
         body: product,
       }),

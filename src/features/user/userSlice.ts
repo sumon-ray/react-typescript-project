@@ -1,5 +1,5 @@
 import { RootState } from "@/app/store";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuid } from "uuid";
 
 export interface User {
@@ -9,6 +9,7 @@ export interface User {
 
 export interface TUser {
   user: User[];
+  passwordUpdateStatus?: { success: boolean };
 }
 
 export interface PasswordUpdate {
@@ -18,18 +19,18 @@ export interface PasswordUpdate {
 
 const initialState: TUser = {
   user: [
-    {
-      id: "3243t5fgscwsx",
-      name: "sumon ray",
-    },
-    {
-      id: "3243t5fgscs",
-      name: "dalim ray",
-    },
-    {
-      id: "3243t5fgscsax",
-      name: "modon ray",
-    },
+    // {
+    //   id: "3243t5fgscwsx",
+    //   name: "sumon ray",
+    // },
+    // {
+    //   id: "3243t5fgscs",
+    //   name: "dalim ray",
+    // },
+    // {
+    //   id: "3243t5fgscsax",
+    //   name: "modon ray",
+    // },
   ],
 };
 
@@ -47,8 +48,12 @@ const userSlice = createSlice({
     deleteUser: (state, action: PayloadAction<string>) => {
       state.user = state.user.filter((user) => user.id !== action.payload);
     },
-    updatePassword: (state, action: PayloadAction<PasswordUpdate>) => {
-      console.log("Password update requested:", action.payload);
+    updatePassword: (state) => {
+      // Return an object with success status
+      return {
+        ...state,
+        passwordUpdateStatus: { success: true },
+      };
     },
   },
 });
@@ -57,6 +62,14 @@ export const selectUsers = (state: RootState) => {
   return state.user.user;
 };
 
-export const { addUser, deleteUser, updatePassword } = userSlice.actions;
+export const addUser = userSlice.actions.addUser;
+export const deleteUser = userSlice.actions.deleteUser;
+export const updatePassword = createAsyncThunk(
+  "user/updatePassword",
+  async (data: PasswordUpdate) => {
+    // Your password update logic here
+    return data;
+  }
+);
 
 export default userSlice.reducer;

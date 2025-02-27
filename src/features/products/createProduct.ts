@@ -8,6 +8,7 @@ const createProduct = baseApi.injectEndpoints({
         method: "POST",
         body: product,
       }),
+      invalidatesTags: [{ type: "Product" }],
     }),
   }),
 });

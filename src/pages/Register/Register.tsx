@@ -4,12 +4,18 @@ import { setUser } from "@/features/auth/authSlice";
 import { Button } from "antd";
 import { useForm } from "react-hook-form";
 
+interface RegisterFormData {
+  name: string;
+  email: string;
+  password: string;
+}
+
 const Register = () => {
   const dispatch = useAppDispatch();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<RegisterFormData>();
   const [registerUser, { isLoading, error }] = useRegisterMutation();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: RegisterFormData) => {
     try {
       const res = await registerUser(data).unwrap();
       console.log("Response:", res);

@@ -1,8 +1,7 @@
-import { RootState } from "@/app/store";
 import { useCreateOrderMutation } from "@/features/order/createOrder";
-import { useInitiatePaymentMutation } from "@/features/payment/paymentApi";
 import { useGetSingleProductQuery } from "@/features/products/getSingleProduct";
-// import { RootState } from "@/redux/store";
+import { useInitiatePaymentMutation } from "@/features/payment/paymentApi";
+import { RootState } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -14,24 +13,21 @@ const OrderForm = () => {
   const [quantity, setQuantity] = useState<number>(1);
   const [paymentMethod, setPaymentMethod] = useState<string>("card");
   const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [orderId, setOrderId] = useState<string>("");
 
-  const [customerName, setCustomerName] = useState("");
-  const [customerAddress, setCustomerAddress] = useState("");
-  const [customerPhone, setCustomerPhone] = useState("");
-  const [customerCity, setCustomerCity] = useState("");
+  const [customerName, setCustomerName] = useState('');
+  const [customerAddress, setCustomerAddress] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
+  const [customerCity, setCustomerCity] = useState('');
 
-  const {
-    data: product,
-
-    isLoading: isProductLoading,
-  } = useGetSingleProductQuery(id ?? "");
+  const { data: product, error, isLoading: isProductLoading } = useGetSingleProductQuery(id ?? "");
   const [createOrder] = useCreateOrderMutation();
-  const [initiatePayment, { isLoading: isPaymentLoading }] =
-    useInitiatePaymentMutation();
+  const [initiatePayment, { isLoading: isPaymentLoading }] = useInitiatePaymentMutation();
 
   const token = useSelector((state: RootState) => state.auth.token);
   const userId = useSelector((state: RootState) => state.auth.user?.id);
-
+  const [isLoading, setIsLoading] = useState(false);
+  
   useEffect(() => {
     if (product) {
       setTotalPrice(product.price * quantity);
@@ -85,6 +81,7 @@ const OrderForm = () => {
 
     try {
       const order_id = "ORDER" + Date.now();
+      setOrderId(order_id);
 
       const orderData = {
         user: userId,
@@ -106,34 +103,23 @@ const OrderForm = () => {
         customer_city: customerCity,
       };
 
+      setIsLoading(true);
       const createOrderResponse = await createOrder(orderData).unwrap();
 
       if (createOrderResponse) {
         toast.success("Order placed successfully!");
 
-        handlePayment(
-          order_id,
-          totalPrice,
-          customerName,
-          customerAddress,
-          customerCity,
-          customerPhone
-        );
+        handlePayment(order_id, totalPrice, customerName, customerAddress, customerCity, customerPhone);
       }
     } catch (error) {
       toast.error("Failed to place order. Please try again.");
       console.error("Order creation error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handlePayment = async (
-    order_id: string,
-    amount: number,
-    customerName: string,
-    customerAddress: string,
-    customerCity: string,
-    customerPhone: string
-  ) => {
+  const handlePayment = async (order_id: string, amount: number, customerName: string, customerAddress: string, customerCity: string, customerPhone: string) => {
     if (!customerName || !customerAddress || !customerPhone || !customerCity) {
       toast.error("Please fill in all the required user details.");
       return;
@@ -191,27 +177,16 @@ const OrderForm = () => {
 
           <div className="flex flex-col justify-between">
             <div className="mb-6">
-              <h1 className="text-3xl md:text-4xl font-semibold text-gray-800">
-                {product.name}
-              </h1>
-              <p className="text-lg font-medium text-gray-700">
-                {product.brand}
-              </p>
+              <h1 className="text-3xl md:text-4xl font-semibold text-gray-800">{product.name}</h1>
+              <p className="text-lg font-medium text-gray-700">{product.brand}</p>
               <p className="text-md text-gray-600">{product.category}</p>
-              <p className="text-2xl font-bold text-gray-800 mt-2">
-                ${product.price}
-              </p>
-              <p className="text-md text-gray-500 mt-4">
-                {product.description || "No description available."}
-              </p>
+              <p className="text-2xl font-bold text-gray-800 mt-2">${product.price}</p>
+              <p className="text-md text-gray-500 mt-4">{product.description || "No description available."}</p>
             </div>
 
             <div className="space-y-6">
               <div className="flex justify-between items-center">
-                <label
-                  htmlFor="quantity"
-                  className="text-lg font-semibold text-gray-700"
-                >
+                <label htmlFor="quantity" className="text-lg font-semibold text-gray-700">
                   Quantity
                 </label>
                 <input
@@ -224,14 +199,10 @@ const OrderForm = () => {
                   className="w-20 px-4 py-2 border bg-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
                 />
               </div>
-              <p className="text-sm text-gray-600">
-                Stock Available: {product.stock}
-              </p>
+              <p className="text-sm text-gray-600">Stock Available: {product.stock}</p>
 
               <div className="space-y-4">
-                <p className="text-lg font-semibold text-gray-700">
-                  Payment Method
-                </p>
+                <p className="text-lg font-semibold text-gray-700">Payment Method</p>
                 <div className="flex space-x-6">
                   <label className="cursor-pointer flex items-center text-gray-700">
                     <input
@@ -260,10 +231,7 @@ const OrderForm = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="my-4">
-                  <label
-                    htmlFor="userName"
-                    className="text-lg font-semibold text-gray-700"
-                  >
+                  <label htmlFor="userName" className="text-lg font-semibold text-gray-700">
                     Name
                   </label>
                   <input
@@ -276,10 +244,7 @@ const OrderForm = () => {
                 </div>
 
                 <div className="my-4">
-                  <label
-                    htmlFor="userAddress"
-                    className="text-lg font-semibold text-gray-700"
-                  >
+                  <label htmlFor="userAddress" className="text-lg font-semibold text-gray-700">
                     Address
                   </label>
                   <input
@@ -292,10 +257,7 @@ const OrderForm = () => {
                 </div>
 
                 <div className="my-4">
-                  <label
-                    htmlFor="userCity"
-                    className="text-lg font-semibold text-gray-700"
-                  >
+                  <label htmlFor="userCity" className="text-lg font-semibold text-gray-700">
                     City
                   </label>
                   <input
@@ -308,10 +270,7 @@ const OrderForm = () => {
                 </div>
 
                 <div className="my-4">
-                  <label
-                    htmlFor="userPhone"
-                    className="text-lg font-semibold text-gray-700"
-                  >
+                  <label htmlFor="userPhone" className="text-lg font-semibold text-gray-700">
                     Phone
                   </label>
                   <input
@@ -325,12 +284,8 @@ const OrderForm = () => {
               </div>
 
               <div className="flex justify-between items-center">
-                <span className="text-xl font-semibold text-gray-700">
-                  Total Price
-                </span>
-                <span className="text-xl font-bold text-gray-800">
-                  ${totalPrice}
-                </span>
+                <span className="text-xl font-semibold text-gray-700">Total Price</span>
+                <span className="text-xl font-bold text-gray-800">${totalPrice}</span>
               </div>
 
               <div className="mt-8 text-center">

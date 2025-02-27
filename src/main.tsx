@@ -7,7 +7,8 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { RouterProvider } from 'react-router-dom'
 import routes from './routes/route.tsx'
 import { ThemeProvider } from './provider/theme-provider.tsx'
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; //
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider>
@@ -16,6 +17,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <RouterProvider router={routes} />
       </PersistGate>
     </Provider>
+    <ToastContainer position="top-right" autoClose={3000}/> 
+
     </ThemeProvider>
   </React.StrictMode>,
 )

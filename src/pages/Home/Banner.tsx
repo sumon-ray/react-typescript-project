@@ -12,7 +12,7 @@ const Banner = () => {
     {
       title: "Mountain Explorer 500",
       description:
-        "A durable mountain bike with 21-speed Shimano gears, front suspension, and all-terrain tires. Perfect for off-road adventures.",
+        "A durable mountain Car with 21-speed Shimano gears, front suspension, and all-terrain tires. Perfect for off-road adventures.",
       image: img1,
     },
     {
@@ -24,7 +24,7 @@ const Banner = () => {
     {
       title: "Speedster Racer X",
       description:
-        "A high-performance racing bike with aerodynamic design, carbon fiber frame, and advanced gear system for speed enthusiasts.",
+        "A high-performance racing Car with aerodynamic design, carbon fiber frame, and advanced gear system for speed enthusiasts.",
       image: img3,
     },
   ];
@@ -41,7 +41,7 @@ const Banner = () => {
         {slideData.map((item) => {
           return (
             <SwiperSlide key={item.title}>
-              <div className={`sliderBg lg:p-[30px] p-[10px]`}>
+              <div className={`sliderBg lg:p-[30px] p-[10px] flex flex-col justify-center md:h-[500px] `}>
                 <div className="lg:flex justify-between items-center gap-[25px]">
                   <div className="lg:w-[50%] space-y-8">
                     <h2 className="lg:text-[40px] text-[25px] text-white">
@@ -56,7 +56,7 @@ const Banner = () => {
                   </div>
                   <div className="lg:w-[50%] flex justify-center items-center">
                     <img
-                      className="lg:h-[400px] w-full object-contain"
+                      className="lg:h-[300px] w-full object-contain"
                       src={item.image}
                       alt=""
                     />

@@ -1,8 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 import tailwindcssAnimate from "tailwindcss-animate";
+import flowbite from "flowbite/plugin"; // Correct Flowbite plugin import
+import daisyui from "daisyui";
 export default {
   darkMode: ["class"],
-  content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
+  content: [
+    "./index.html", 
+    "./src/**/*.{ts,tsx,js,jsx}",
+    "node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}", // Ensure Flowbite React components are included
+  ],
   theme: {
     extend: {
       borderRadius: {
@@ -54,5 +60,10 @@ export default {
       },
     },
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [
+    tailwindcssAnimate,
+     daisyui,
+
+    flowbite, // Correct Flowbite plugin usage
+  ],
 };

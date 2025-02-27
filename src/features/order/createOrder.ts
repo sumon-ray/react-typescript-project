@@ -1,15 +1,18 @@
 import { baseApi } from "../api/baseApi";
 
-const createOrder = baseApi.injectEndpoints({
+export const orderApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     createOrder: builder.mutation({
-      query: (product) => ({
+      query: (orderData) => ({
         url: "/api/order",
         method: "POST",
-        body: product,
+        body: orderData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Or use the token from your Redux store
+        },
       }),
     }),
   }),
 });
 
-export const { useCreateOrderMutation } = createOrder;
+export const { useCreateOrderMutation } = orderApi;

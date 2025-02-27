@@ -11,19 +11,33 @@ const CreateCar = () => {
     price: 0,
     category: "",
     image: "",
+    stock: 1, // Default value
+    description: "", // Required field
+    isAvailable: true, // Default value
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
+
     setCarData({
       ...carData,
-      [name]: value,
+      [name]: type === "number" ? Number(value) : value,
     });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await createProduct(carData);
+
+    const formattedData = {
+      ...carData,
+      price: Number(carData.price), // Ensure price is a number
+      stock: Number(carData.stock), // Ensure stock is a number
+      isAvailable: Boolean(carData.isAvailable), // Ensure it's a boolean
+    };
+
+    console.log("Submitting Car Data:", formattedData); // ✅ Check if all fields are there
+
+    await createProduct(formattedData);
   };
 
   return (
@@ -88,6 +102,38 @@ const CreateCar = () => {
             required
             className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
           />
+          <input
+            type="number"
+            name="stock"
+            value={carData.stock}
+            onChange={handleChange}
+            placeholder="Stock"
+            required
+            className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+          />
+
+          <input
+            type="text"
+            name="description"
+            value={carData.description}
+            onChange={handleChange}
+            placeholder="Description"
+            required
+            className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+          />
+
+          <label className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              name="isAvailable"
+              checked={carData.isAvailable}
+              onChange={(e) =>
+                setCarData({ ...carData, isAvailable: e.target.checked })
+              }
+            />
+            <span>Available</span>
+          </label>
+
           <button
             type="submit"
             disabled={isLoading}
@@ -97,7 +143,9 @@ const CreateCar = () => {
           </button>
         </form>
         {error && (
-          <p className="text-red-500 text-center mt-4">{error.message}</p>
+          <p className="text-red-500 text-center mt-4">
+            {"message" in error ? error.message : "An error occurred"}
+          </p>
         )}
       </div>
     </>

@@ -1,6 +1,6 @@
+import { useAppDispatch } from "@/app/hook";
 import { PasswordUpdate, updatePassword } from "@/features/user/userSlice";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 const UpdatePassword = () => {
@@ -8,7 +8,7 @@ const UpdatePassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,10 +25,10 @@ const UpdatePassword = () => {
       const res = await dispatch(updatePassword(data)); // Dispatch Redux action to update password
 
       // Check for success or error
-      if (res.payload?.success) {
+      if (res.payload) {
         toast.success("Password updated successfully!");
       } else {
-        toast.error(res.payload?.message || "Failed to update password");
+        // toast.error(res.payload || "Failed to update password");
       }
     } catch (error) {
       setError("An error occurred while updating the password.");

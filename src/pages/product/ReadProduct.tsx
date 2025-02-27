@@ -2,7 +2,7 @@ import { useGetAllProductQuery } from "@/features/products/getAllproductApi";
 import Spinnter from "@/reuseComponents/Spinnter";
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 type Product = {
   _id: string;

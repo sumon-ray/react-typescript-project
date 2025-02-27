@@ -3,6 +3,7 @@ import {
   useGetUsersQuery,
 } from "@/features/auth/authApi";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { toast } from "react-toastify";
 
 const ManageUser = () => {
   interface User {
@@ -10,14 +11,13 @@ const ManageUser = () => {
     name: string;
     email: string;
     role: string;
-    isBlocked: boolean; 
+    isBlocked: boolean;
   }
 
   // ✅ Get all users from API
-  const { data, error, isLoading } = useGetUsersQuery(undefined);
-  console.log(data);
-  // ✅ Mutation for updating user status (Deactivate/Activate)
-  // const [updateUserStatus] = useUpdateUserMutation();
+  const { data, error, isLoading, refetch } = useGetUsersQuery(undefined);
+  
+  // ✅ Mutation for blocking/unblocking users
   const [blockUser] = useBlockUserMutation();
 
   if (isLoading) return <p>Loading...</p>;
@@ -26,13 +26,21 @@ const ManageUser = () => {
     return <p>Error: {fetchError.status}</p>;
   }
 
-
-  const handleBlock = async (userId: string) => {
+  // ✅ Function to handle block/unblock user
+  const handleBlock = async (user: User) => {
     try {
-      await blockUser(userId);
-      alert("User blocked successfully!");
+      await blockUser(user._id);
+      
+      // ✅ Show toast notification
+      toast.success(
+        user.isBlocked ? "User unblocked successfully!" : "User blocked successfully!"
+      );
+
+      // ✅ Refresh user list after a small delay
+      setTimeout(() => refetch(), 500);
     } catch (error) {
-      console.error("Error blocking user:", error);
+      console.error("Error blocking/unblocking user:", error);
+      toast.error("Failed to update user status!");
     }
   };
 
@@ -56,14 +64,14 @@ const ManageUser = () => {
                 <td className="border p-2">{user.email}</td>
                 <td className="border p-2">{user.role}</td>
                 <td className="border p-2">
-                <button
-  className={`px-3 py-1 rounded ${
-    user.isBlocked ? "bg-red-500 text-white" : "bg-green-500 text-white"
-  }`}
-  onClick={() => handleBlock(user._id)}
->
-  {user.isBlocked ? "Unblock" : "Block"}
-</button>
+                  <button
+                    className={`px-3 py-1 rounded ${
+                      user.isBlocked ? "bg-red-500 text-white" : "bg-green-500 text-white"
+                    }`}
+                    onClick={() => handleBlock(user)}
+                  >
+                    {user.isBlocked ? "Unblock" : "Block"}
+                  </button>
                 </td>
               </tr>
             ))}

@@ -1,6 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { useCurrentUser } from "@/features/auth/useCurrentUser";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Profile = () => {
   const user = useCurrentUser();

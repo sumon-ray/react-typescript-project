@@ -6,38 +6,42 @@ import { Button } from "antd";
 import { useForm } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router-dom";
 
-const Login = () => {
-    const dispatch = useAppDispatch()
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      email: "rahim2@gmail.com",
-      password: "rahim12345",
-    },
-  });
-  const [login, {  error }] = useLoginMutation();
-//   console.log(data);
-const navigate = useNavigate();
+interface LoginFormData {
+  email: string;
+  password: string;
+}
 
-  const onSubmit = async (data) => {
+const Login = () => {
+  const dispatch = useAppDispatch();
+  const { register, handleSubmit } = useForm<LoginFormData>({
+    // defaultValues: {
+    //   email: "rahim2@gmail.com",
+    //   password: "rahim12345",
+    // },
+  });
+  const [login] = useLoginMutation();
+  //   console.log(data);
+  const navigate = useNavigate();
+
+  const onSubmit = async (data: LoginFormData) => {
     const userInfo = { email: data.email, password: data.password };
     const res = await login(userInfo).unwrap();
-  
+
     const token = res.data.token;
     const user = res.data.user;
     // Verify the token
     const decodedToken = verifyToken(token);
-  
+
     console.log("API Response:", res);
     console.log("User Data:", user);
     console.log("Decoded Token:", decodedToken);
-  
+
     // Store both user and token in Redux
     dispatch(setUser({ user: user, token: token }));
 
-    navigate('/')
+    navigate("/");
   };
-  
-  
+
   return (
     <div className="flex h-screen">
       <div className="hidden md:flex md:w-1/2 bg-gradient-to-r from-blue-500 to-blue-700 items-center justify-center">
@@ -48,7 +52,9 @@ const navigate = useNavigate();
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col items-center justify-center bg-white p-8 rounded-lg shadow-lg w-80"
         >
-          <h2 className="text-3xl font-bold mb-6 text-gray-800 text-center">Login</h2>
+          <h2 className="text-3xl font-bold mb-6 text-gray-800 text-center">
+            Login
+          </h2>
           <div className="mb-6 w-full">
             <label
               htmlFor="email"
@@ -84,7 +90,10 @@ const navigate = useNavigate();
             Login
           </Button>
           <p className="py-1 text-black">Or</p>
-   <NavLink to='/register'> <small className="text-blue-600">register</small> </NavLink>
+          <NavLink to="/register">
+            {" "}
+            <small className="text-blue-600">register</small>{" "}
+          </NavLink>
         </form>
       </div>
     </div>

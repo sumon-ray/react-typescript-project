@@ -13,6 +13,10 @@ import AllProducts from "@/pages/Home/AllProducts";
 import Profile from "@/pages/Dashboard/UserProfile/Profile";
 import ViewOrder from "@/pages/Dashboard/UserProfile/ViewOrder";
 import UpdatePassword from "@/components/UpdatePassword/UpdatePassword";
+import NewProducts from "@/pages/Dashboard/NewProducts/NewProducts";
+import UpdateCarInfo from "@/pages/UpdateCarInfo/UpdateCarInfo";
+import ProtectedRoute from '../components/protectedRoute/ProtectedRoute';
+import About from "@/pages/About/About";
 
 // const CheckoutWrapper = () => {
 //   const { id } = useParams();
@@ -33,14 +37,20 @@ const routes = createBrowserRouter([
         path: "/product/:id",
         element: <ProductDetailsPage />,
       },
-  
+        
+    {
+      path: "/about",
+      element: <About />
+    },
       {
         path: "/user",
         element: <User />,
       },
       {
         path: "checkout/:id",
-        element: <Wrapper/>,
+        element: <ProtectedRoute>
+          <Wrapper/>
+        </ProtectedRoute>,
       },
       {
         path: "products",
@@ -51,7 +61,9 @@ const routes = createBrowserRouter([
 
   {
     path: "/dashboard",
-    element: <MainLayout />,
+    element: <ProtectedRoute>
+      <MainLayout />
+    </ProtectedRoute>,
     
     children: [
       
@@ -73,13 +85,21 @@ const routes = createBrowserRouter([
         path: "create",
         element: <CreateCar />,
       },
+      {
+        path: "products",
+        element: <NewProducts />,
+      },
       // {
-      //   path: "my-profile",
-      //   element: <Profile />,
+      //   path: "order",
+      //   element: <ViewOrder/>,
       // },
       {
         path: "order",
         element: <ViewOrder/>,
+      },
+      {
+        path: "update-car/:id",
+        element: <UpdateCarInfo/>,
       },
    
     ],

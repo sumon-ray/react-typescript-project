@@ -4,6 +4,20 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
+interface Product {
+  name: string;
+  brand: string;
+  category: string;
+  price: number;
+  isAvailable: boolean;
+  createdAt: string;
+  _id: string;
+  description: string;
+  type: string;
+  model: string;
+  image: string;
+}
+
 const AllProducts = () => {
   const { data, isLoading } = useGetAllProductQuery("");
   const [search, setSearch] = useState("");
@@ -35,7 +49,7 @@ const AllProducts = () => {
   // Filtered Products
   const filteredProducts = data
     ? data
-        .filter((product) => {
+        .filter((product: Product) => {
           // Search filter (by name, brand, or category)
           if (
             search &&
@@ -82,7 +96,7 @@ const AllProducts = () => {
           return true;
         })
         .sort(
-          (a, b) =>
+          (a: Product, b: Product) =>
             new Date(b.createdAt || 0).getTime() -
             new Date(a.createdAt || 0).getTime()
         )
@@ -172,7 +186,7 @@ const AllProducts = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-5">
           {filteredProducts.length > 0 ? (
-            filteredProducts.map((item) => (
+            filteredProducts.map((item: Product) => (
               <div
                 key={item._id}
                 className="p-4 border rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
@@ -194,7 +208,8 @@ const AllProducts = () => {
                   <p>Model: {item.model}</p>
                   <p>Price: ${item.price}</p>
                   <p>
-                    Availability: {item.isAvailable ? "In Stock" : "Out of Stock"}
+                    Availability:{" "}
+                    {item.isAvailable ? "In Stock" : "Out of Stock"}
                   </p>
                   <div className="flex justify-between items-center mt-4">
                     <NavLink to={`/product/${item._id}`}>
