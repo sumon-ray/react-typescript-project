@@ -2,7 +2,7 @@
 # Live Link: https://car-store-frontend-rose.vercel.app/
 ## 📌 Overview
 
-The **Bicycle Store Application** is an intuitive e-commerce platform designed for seamless bicycle purchases. It features role-based authentication, product management, and secure payments to ensure a smooth and secure user experience.
+The Car Store Application is a user-friendly e-commerce platform designed for seamless car purchases. It features role-based authentication, inventory management, and secure payment integration, ensuring a smooth and reliable shopping experience for customers. 🚗💨
 
 ## ✨ Key Features
 
@@ -24,13 +24,13 @@ The **Bicycle Store Application** is an intuitive e-commerce platform designed f
 - **Extra Section**: Testimonials & reviews.
 - **Footer**: Contact details & social links.
 
-#### 🚲 Bicycles Page
+#### 🚲 CarStore Page
 
 - **Search & Filters**: Search by brand, name, category & price.
 - **Dynamic Listings**: Updates based on user input.
 - **Detailed Bicycle Cards**: Name, brand, model, price & category.
 
-#### 📄 Bicycle Details Page
+#### 📄 Car Details Page
 
 - Displays product image, specs, and pricing.
 - "Buy Now" button redirects to the checkout page.
@@ -60,7 +60,7 @@ The **Bicycle Store Application** is an intuitive e-commerce platform designed f
 - **Backend:** Node.js, Express.js, Typescript
 - **Database:** MongoDB
 - **Hosting & Deployment:** Vercel
-- **Payment Gateway:** Stripe
+- **Payment Gateway:** Shurjopay
 
 ## 🚀 Installation & Setup
 
