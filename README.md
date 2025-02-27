@@ -1,4 +1,4 @@
-# 🚴‍♂️ CarStore
+# 🚗 CarStore
 # Live Link: https://car-store-frontend-rose.vercel.app/
 ## 📌 Overview
 
