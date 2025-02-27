@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FaShoppingCart, FaStar } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { useGetSingleProductQuery } from "@/features/products/getSingleProduct";
@@ -37,7 +38,7 @@ const ProductDetailsPage = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container min-h-screen mx-auto mt-10 p-4">
       <ToastContainer />
       {errorMessage && (
         <div className="bg-red-500 text-white p-4 mb-4">{errorMessage}</div>
@@ -49,36 +50,43 @@ const ProductDetailsPage = () => {
             <img
               src={product.image}
               alt={product.name}
-              className="w-full max-w-lg h-auto rounded-lg shadow-lg"
+              className="w-full max-w-lg h-auto rounded-lg shadow-lg transition-transform transform hover:scale-105"
+              style={{ maxHeight: "400px" }}
             />
           </div>
 
-          <div className="flex flex-col justify-between">
-            <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
-            <p className="text-xl font-semibold text-gray-700">
-              {product.brand}
+          <div className="flex flex-col justify-between bg-white rounded-lg shadow-md p-6 h-full">
+            <h1 className="text-4xl font-extrabold mb-2 text-gray-800">
+              {product.name}
+            </h1>
+            <p className="text-lg font-semibold text-gray-600 flex items-center mb-2">
+              <FaStar className="text-yellow-500 mr-2" /> {product.brand}
             </p>
-            <p className="text-lg text-gray-500 mb-4">{product.category}</p>
-            <p className="text-lg text-gray-600">{product.model}</p>
+            <p className="text-md text-gray-500 mb-4">{product.category}</p>
+            <p className="text-md text-gray-700 mb-4">{product.model}</p>
 
             <div className="my-4">
-              <p className="text-2xl font-bold text-gray-800">
+              <p className="text-2xl font-bold text-gray-900">
                 ${product.price}
               </p>
             </div>
 
-            <p className="text-gray-600 mb-4">
+            <p className="text-gray-700 mb-4">
               {product.description || "No description available."}
             </p>
-            <p>stock {product?.stock}</p>
-            <p>quantity {product?.quantity}</p>
+            <p className="text-gray-600 mb-2">
+              <strong>Stock:</strong> {product?.stock}
+            </p>
+            <p className="text-gray-600 mb-4">
+              <strong>Quantity:</strong> {product?.quantity}
+            </p>
 
             <div className="flex justify-between items-center mt-4">
               <button
                 onClick={handleOrderClick}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300"
+                className="flex items-center px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 shadow-md transform hover:scale-105"
               >
-                Order
+                <FaShoppingCart className="mr-2" /> Order
               </button>
             </div>
           </div>

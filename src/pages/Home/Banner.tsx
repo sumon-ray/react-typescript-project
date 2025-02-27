@@ -30,7 +30,7 @@ const Banner = () => {
   ];
 
   return (
-    <div className="mt-[20px]">
+    <div className="">
       <Swiper
         navigation={true}
         modules={[Navigation]}

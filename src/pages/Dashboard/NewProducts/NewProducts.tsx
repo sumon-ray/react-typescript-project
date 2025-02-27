@@ -2,7 +2,7 @@ import { useDeleteProductMutation } from "@/features/delete/deleteCar";
 import { useGetAllProductQuery } from "@/features/products/getAllproductApi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify"; // Assuming you're using this for notifications
-
+import Swal from "sweetalert2";
 const NewProducts = () => {
   const navigate = useNavigate();
   const { data, isLoading, error, refetch } = useGetAllProductQuery("");
@@ -14,20 +14,32 @@ const NewProducts = () => {
     return <p className="text-center text-red-500">Failed to load products.</p>;
 
   const handleDelete = async (id: string) => {
-    if (confirm("Are you sure you want to delete this car?")) {
-      try {
+    try {
+      // Use SweetAlert2 for confirmation
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!",
+      });
+
+      if (result.isConfirmed) {
+        // Proceed with deletion if user confirmed
         await deleteProduct(id);
         toast.success("Car deleted successfully!"); // Show success toast
         refetch(); // Refetch after deletion to get the latest data
-      } catch (err) {
-        toast.error("Failed to delete car."); // Show error toast
       }
+    } catch (err) {
+      toast.error("Failed to delete car."); // Show error toast
     }
   };
 
   const handleUpdate = (id: string) => {
+    refetch();
     navigate(`/dashboard/update-car/${id}`);
-    // No need to refetch here, as you can rely on the product details to be updated directly
   };
 
   return (

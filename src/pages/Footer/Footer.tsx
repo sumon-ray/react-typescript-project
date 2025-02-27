@@ -11,7 +11,7 @@ import "./footer.css";
 const Footer = () => {
   return (
     <>
-      <div className="bg-[#1ABC9C] text-gray-100 pt-[150px] footers">
+      <div className=" bg-sky-800 text-gray-100 pt-[150px] footers">
         <div className="container mx-auto px-[10px] py-[50px]">
           <div>
             <div className="lg:flex justify-between items-center mb-[20px]">

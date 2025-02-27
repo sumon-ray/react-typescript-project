@@ -2,19 +2,20 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, useCurrentUser } from "@/features/auth/authSlice";
 import { ModeToggle } from "../mode-toggle";
-
+import { FaCar } from "react-icons/fa";
+// import image from '../../assets/vi.svg'
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(useCurrentUser);
 
   const handleLogout = () => {
-    dispatch(logout()); // Logout action to clear user session
-    navigate("/login"); // Redirect to login page
+    dispatch(logout()); 
+    navigate("/login"); 
   };
 
   return (
-    <div className="navbar  shadow-md">
+    <div className="navbar border-b-2  bg-sky-800 dark:text-white text-white  shadow-md">
       {/* Left Side - Logo & Dropdown */}
       <div className="navbar-start">
         <div className="dropdown">
@@ -45,6 +46,9 @@ const Navbar = () => {
             <li>
               <NavLink to="/dashboard">Dashboard</NavLink>
             </li>
+            <li>
+            <NavLink to="/about">About Us</NavLink>
+          </li>
             {user ? (
               <li>
                 <button onClick={handleLogout}>Logout</button>
@@ -58,11 +62,12 @@ const Navbar = () => {
         </div>
         {/* Logo */}
         <NavLink to="/" className="btn btn-ghost text-xl">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlAv6B0jrzxijQH7S0nB3HIr5kZmKFwjc_VA&s"
+          {/* <img
+            src={image}
             alt="Logo"
             className="h-8"
-          />
+          /> */}
+            <FaCar className="text-4xl" />
        <h1 className="font-semibold"> CarStore</h1>
         </NavLink>
       </div>
@@ -74,11 +79,9 @@ const Navbar = () => {
           <li>
             <NavLink to="/">Home</NavLink>
           </li>
+      
           <li>
-            <NavLink to="/dashboard">Dashboard</NavLink>
-          </li>
-          <li>
-            <NavLink to="/about">About</NavLink>
+            <NavLink to="/about">About Us</NavLink>
           </li>
           <li>
         
@@ -88,6 +91,9 @@ const Navbar = () => {
 
       {/* Right Side - Login/Logout & Dark Mode Toggle */}
       <div className="navbar-end flex items-center gap-4">
+      <button>
+            <NavLink to="/dashboard">Dashboard</NavLink>
+          </button>
         {user ? (
           <button className="btn btn-error btn-sm text-white" onClick={handleLogout}>
             Logout

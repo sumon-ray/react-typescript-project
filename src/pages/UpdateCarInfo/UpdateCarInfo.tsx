@@ -1,10 +1,13 @@
 import { useGetSingleProductQuery } from "@/features/products/getSingleProduct";
 import { useUpdateProductMutation } from "@/features/updateCar/updateCarInfo";
+import { message } from "antd";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const UpdateCarInfo = () => {
+  const navigate = useNavigate()
+
   const { id } = useParams<{ id: string }>();
   const {
     data: product,
@@ -71,8 +74,10 @@ const UpdateCarInfo = () => {
 
     try {
       await updateProduct({ id, updatedData });
+      message.success("Product updated successfully!");
+      navigate('/dashboard/products')
       refetch();
-      toast.success("Product updated successfully!");
+
     } catch (err) {
       console.error("Failed to update product:", err);
       toast.error("Failed to update product.");

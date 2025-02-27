@@ -1,7 +1,7 @@
 import { useAppSelector } from "@/app/hook"; // Redux থেকে ডাটা নিতে
 import { Layout, Menu } from "antd";
 import { NavLink, Outlet } from "react-router-dom";
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 const { SubMenu } = Menu; // Import SubMenu component
 
 interface MenuItem {
@@ -57,7 +57,7 @@ const userSidebarItems: MenuItem[] = [
   },
   {
     key: "2",
-    label: <NavLink to="/dashboard/order">Order List</NavLink>,
+    label: <NavLink to="/dashboard/view-order">Order List</NavLink>,
   },
 ];
 
@@ -109,18 +109,16 @@ const MainLayout = () => {
       <Layout>
         <Header style={{ padding: 0 }} />
         <Content style={{ margin: "24px 16px 0" }}>
-          <div
+          <div className=""
             style={{
               padding: 24,
-              minHeight: 360,
+              minHeight: 688,
             }}
           >
             <Outlet />
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
-        </Footer>
+
       </Layout>
     </Layout>
   );

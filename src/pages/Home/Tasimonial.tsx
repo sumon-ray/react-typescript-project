@@ -54,7 +54,7 @@ const Testimonial = () => {
         {data &&
           data.map((item) => (
             <SwiperSlide key={item.name}>
-              <div className="w-[100%] lg:w-[60%] mx-auto">
+              <div className="w-[100%] lg:w-[60%]  mx-auto">
                 <div className="flex items-center gap-[30px] mb-[20px]">
                   <div>
                     <img

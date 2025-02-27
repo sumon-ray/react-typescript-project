@@ -4,6 +4,7 @@ import { useInitiatePaymentMutation } from "@/features/payment/paymentApi";
 import { useGetSingleProductQuery } from "@/features/products/getSingleProduct";
 // import { RootState } from "@/redux/store";
 import { useEffect, useState } from "react";
+import { FaCashRegister, FaCreditCard } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -22,7 +23,7 @@ const OrderForm = () => {
 
   const {
     data: product,
-
+    refetch,
     isLoading: isProductLoading,
   } = useGetSingleProductQuery(id ?? "");
   const [createOrder] = useCreateOrderMutation();
@@ -110,6 +111,7 @@ const OrderForm = () => {
 
       if (createOrderResponse) {
         toast.success("Order placed successfully!");
+        refetch();
 
         handlePayment(
           order_id,
@@ -177,11 +179,11 @@ const OrderForm = () => {
   }
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-6 bg-gray-50 shadow-2xl dark:bg-gray-800 ">
       <ToastContainer />
-      <div className="bg-white rounded-lg shadow-2xl overflow-hidden max-w-5xl mx-auto">
+      <div className="rounded-lg  overflow-hidden max-w-5xl mx-auto bg-white dark:bg-gray-800 ">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6">
-          <div className="flex justify-center items-center p-6 bg-gradient-to-br from-blue-100 to-indigo-200 rounded-lg shadow-xl">
+          <div className="flex justify-center items-center p-6 bg-gradient-to-br rounded-lg ">
             <img
               src={product.image}
               alt={product.name}
@@ -191,27 +193,20 @@ const OrderForm = () => {
 
           <div className="flex flex-col justify-between">
             <div className="mb-6">
-              <h1 className="text-3xl md:text-4xl font-semibold text-gray-800">
+              <h1 className="text-3xl md:text-4xl font-semibold ">
                 {product.name}
               </h1>
-              <p className="text-lg font-medium text-gray-700">
-                {product.brand}
-              </p>
-              <p className="text-md text-gray-600">{product.category}</p>
-              <p className="text-2xl font-bold text-gray-800 mt-2">
-                ${product.price}
-              </p>
-              <p className="text-md text-gray-500 mt-4">
+              <p className="text-lg font-medium ">{product.brand}</p>
+              <p className="text-md ">{product.category}</p>
+              <p className="text-2xl font-bold  mt-2">${product.price}</p>
+              <p className="text-md  mt-4">
                 {product.description || "No description available."}
               </p>
             </div>
 
             <div className="space-y-6">
               <div className="flex justify-between items-center">
-                <label
-                  htmlFor="quantity"
-                  className="text-lg font-semibold text-gray-700"
-                >
+                <label htmlFor="quantity" className="text-lg font-semibold ">
                   Quantity
                 </label>
                 <input
@@ -221,49 +216,50 @@ const OrderForm = () => {
                   min="1"
                   max={product.stock}
                   onChange={handleQuantityChange}
-                  className="w-20 px-4 py-2 border bg-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                  className="w-20 px-4 py-2 border bg-[#04030343]  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
                 />
               </div>
-              <p className="text-sm text-gray-600">
-                Stock Available: {product.stock}
-              </p>
+              <p className="text-sm ">Stock Available: {product.stock}</p>
 
               <div className="space-y-4">
-                <p className="text-lg font-semibold text-gray-700">
+                <p className="text-lg font-semibold text-blue-600 dark:text-blue-400">
                   Payment Method
                 </p>
                 <div className="flex space-x-6">
-                  <label className="cursor-pointer flex items-center text-gray-700">
+                  <label className="cursor-pointer flex items-center">
                     <input
                       type="radio"
                       name="paymentMethod"
                       value="card"
                       checked={paymentMethod === "card"}
                       onChange={() => setPaymentMethod("card")}
-                      className="mr-2"
+                      className="mr-2 bg-[#04030343]"
                     />
-                    <span>Card</span>
+                    <FaCreditCard className="text-blue-600 dark:text-blue-400 mr-1" />
+                    <span className="text-gray-800 dark:text-gray-200">
+                      Card
+                    </span>
                   </label>
-                  <label className="cursor-pointer flex items-center text-gray-700">
+                  <label className="cursor-pointer flex items-center">
                     <input
                       type="radio"
                       name="paymentMethod"
                       value="cash"
                       checked={paymentMethod === "cash"}
                       onChange={() => setPaymentMethod("cash")}
-                      className="mr-2"
+                      className="mr-2 bg-[#04030343]"
                     />
-                    <span>Cash on Delivery</span>
+                    <FaCashRegister className="text-blue-600 dark:text-blue-400 mr-1" />
+                    <span className="text-gray-800 dark:text-gray-200">
+                      Cash on Delivery
+                    </span>
                   </label>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="my-4">
-                  <label
-                    htmlFor="userName"
-                    className="text-lg font-semibold text-gray-700"
-                  >
+                  <label htmlFor="userName" className="text-lg font-semibold ">
                     Name
                   </label>
                   <input
@@ -271,14 +267,15 @@ const OrderForm = () => {
                     id="userName"
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
-                    className="w-full px-4 py-2 border bg-slate-100 rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter your name"
+                    className="w-full bg-[#04030343] px-4 py-2 border  rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
                 <div className="my-4">
                   <label
                     htmlFor="userAddress"
-                    className="text-lg font-semibold text-gray-700"
+                    className="text-lg font-semibold "
                   >
                     Address
                   </label>
@@ -287,15 +284,13 @@ const OrderForm = () => {
                     id="userAddress"
                     value={customerAddress}
                     onChange={(e) => setCustomerAddress(e.target.value)}
-                    className="w-full px-4 py-2 border bg-slate-100 rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter your address"
+                    className="w-full bg-[#04030343] px-4 py-2 border  rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
                 <div className="my-4">
-                  <label
-                    htmlFor="userCity"
-                    className="text-lg font-semibold text-gray-700"
-                  >
+                  <label htmlFor="userCity" className="text-lg font-semibold ">
                     City
                   </label>
                   <input
@@ -303,15 +298,13 @@ const OrderForm = () => {
                     id="userCity"
                     value={customerCity}
                     onChange={(e) => setCustomerCity(e.target.value)}
-                    className="w-full px-4 py-2 border bg-slate-100 rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter your city"
+                    className="w-full bg-[#04030343] px-4 py-2 border  rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
                 <div className="my-4">
-                  <label
-                    htmlFor="userPhone"
-                    className="text-lg font-semibold text-gray-700"
-                  >
+                  <label htmlFor="userPhone" className="text-lg font-semibold ">
                     Phone
                   </label>
                   <input
@@ -319,18 +312,15 @@ const OrderForm = () => {
                     id="userPhone"
                     value={customerPhone}
                     onChange={(e) => setCustomerPhone(e.target.value)}
-                    className="w-full px-4 py-2 border bg-slate-100 rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter your phone number"
+                    className="w-full bg-[#04030343] px-4 py-2 border  rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
 
               <div className="flex justify-between items-center">
-                <span className="text-xl font-semibold text-gray-700">
-                  Total Price
-                </span>
-                <span className="text-xl font-bold text-gray-800">
-                  ${totalPrice}
-                </span>
+                <span className="text-xl font-semibold ">Total Price</span>
+                <span className="text-xl font-bold ">${totalPrice}</span>
               </div>
 
               <div className="mt-8 text-center">

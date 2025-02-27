@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { useCreateProductMutation } from "../../features/products/createProduct";
-
+import {message} from "antd"
+import { useNavigate } from "react-router-dom";
 const CreateCar = () => {
+  const navigate = useNavigate()
   const [createProduct, { isLoading, error }] = useCreateProductMutation();
   const [carData, setCarData] = useState({
     name: "",
@@ -30,14 +32,16 @@ const CreateCar = () => {
 
     const formattedData = {
       ...carData,
-      price: Number(carData.price), // Ensure price is a number
-      stock: Number(carData.stock), // Ensure stock is a number
-      isAvailable: Boolean(carData.isAvailable), // Ensure it's a boolean
+      price: Number(carData.price), 
+      stock: Number(carData.stock), 
+      isAvailable: Boolean(carData.isAvailable), 
     };
 
     console.log("Submitting Car Data:", formattedData); // ✅ Check if all fields are there
 
     await createProduct(formattedData);
+    message.success("Product Added Successfully")
+    navigate('/dashboard/products')
   };
 
   return (

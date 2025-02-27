@@ -17,6 +17,7 @@ import NewProducts from "@/pages/Dashboard/NewProducts/NewProducts";
 import UpdateCarInfo from "@/pages/UpdateCarInfo/UpdateCarInfo";
 import ProtectedRoute from '../components/protectedRoute/ProtectedRoute';
 import About from "@/pages/About/About";
+import GetOrderById from "@/pages/Dashboard/UserProfile/GetOrderById";
 
 // const CheckoutWrapper = () => {
 //   const { id } = useParams();
@@ -96,6 +97,10 @@ const routes = createBrowserRouter([
       {
         path: "order",
         element: <ViewOrder/>,
+      },
+      {
+        path: "view-order",
+        element: <GetOrderById/>,
       },
       {
         path: "update-car/:id",
