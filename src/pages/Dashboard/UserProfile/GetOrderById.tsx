@@ -13,28 +13,19 @@ interface Order {
 }
 
 const GetOrderById = () => {
-    // const userId = "677a7d18d7fb0aab07202a84";
+  // const userId = "677a7d18d7fb0aab07202a84";
 
-    const userId = useSelector((state: RootState) => state.auth.user?.id);
+  const userId = useSelector((state: RootState) => state.auth.user?.id);
 
   // Skip query if userId is undefined
-  const { data, isLoading} = useGetOrderByIdQuery(userId ?? "", {
+  const { data, isLoading } = useGetOrderByIdQuery(userId ?? "", {
     skip: !userId,
   });
 
-  // Handle loading state
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  // // Handle error state
-  // if (error) {
-  //   // You can check for specific error message and display a custom one
-  //   const errorMessage = error.message || "Something went wrong. Please try again later.";
-  //   return <div>Error: {errorMessage}</div>;
-  // }
-
-  // Handle empty data state
   if (!data || data.length === 0) {
     return <div>You haven't placed any orders yet. ❌</div>;
   }

@@ -19,12 +19,6 @@ import ProtectedRoute from '../components/protectedRoute/ProtectedRoute';
 import About from "@/pages/About/About";
 import GetOrderById from "@/pages/Dashboard/UserProfile/GetOrderById";
 
-// const CheckoutWrapper = () => {
-//   const { id } = useParams();
-//   const { data: product } = useGetSingleProductQuery(id ?? '');
-//   return <Checkout product={product} />;
-// };
-
 const routes = createBrowserRouter([
   {
     path: "/",

@@ -32,7 +32,6 @@ const ReadProduct = () => {
         <Spinnter />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[25px]">
-          {/* Check if data exists and contains an array */}
           {data && Array.isArray(data) && data.length > 0 ? (
             [...data]
               .sort(
@@ -62,7 +61,7 @@ const ReadProduct = () => {
                       <p>${item?.price}</p>
                       <div className="flex justify-between items-center mt-4">
                       <NavLink
-                          to={`/product/${item._id}`} // Redirects to the details page with the product ID
+                          to={`/product/${item._id}`} 
                         >
                           <button className="border border-[#1ABC9C] py-[8px] px-[30px] cursor-pointer hover:bg-[#1ABC9C] hover:text-[#fff] transition-colors duration-300">
                             Details

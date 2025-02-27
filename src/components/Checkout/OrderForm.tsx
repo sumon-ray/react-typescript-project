@@ -71,7 +71,6 @@ const OrderForm = () => {
       return;
     }
 
-    // Show confirmation using SweetAlert before proceeding
     const { isConfirmed } = await Swal.fire({
       title: "Are you sure?",
       text: "Do you want to confirm this order?",
@@ -81,7 +80,6 @@ const OrderForm = () => {
       cancelButtonText: "No, cancel",
     });
 
-    // If user doesn't confirm, cancel the order submission
     if (!isConfirmed) return;
 
     try {

@@ -49,7 +49,6 @@ const userSlice = createSlice({
       state.user = state.user.filter((user) => user.id !== action.payload);
     },
     updatePassword: (state) => {
-      // Return an object with success status
       return {
         ...state,
         passwordUpdateStatus: { success: true },
@@ -67,7 +66,6 @@ export const deleteUser = userSlice.actions.deleteUser;
 export const updatePassword = createAsyncThunk(
   "user/updatePassword",
   async (data: PasswordUpdate) => {
-    // Your password update logic here
     return data;
   }
 );

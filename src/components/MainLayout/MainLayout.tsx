@@ -1,8 +1,8 @@
-import { useAppSelector } from "@/app/hook"; // Redux থেকে ডাটা নিতে
+import { useAppSelector } from "@/app/hook"; 
 import { Layout, Menu } from "antd";
 import { NavLink, Outlet } from "react-router-dom";
 const { Header, Content, Sider } = Layout;
-const { SubMenu } = Menu; // Import SubMenu component
+const { SubMenu } = Menu; 
 
 interface MenuItem {
   key: string;
@@ -39,7 +39,6 @@ const adminSidebarItems: MenuItem[] = [
   {
     key: "10",
     label: "Manage Order",
-    // Create a SubMenu for "Manage Order"
     children: [
       {
         key: "9",
@@ -62,10 +61,8 @@ const userSidebarItems: MenuItem[] = [
 ];
 
 const MainLayout = () => {
-  // ✅ Redux থেকে লগইন করা ইউজারের তথ্য আনছি
   const { user } = useAppSelector((state) => state.auth);
 
-  // 🔥 ইউজারের রোল অনুযায়ী মেনু আইটেম সেট করা
   const sidebarItems: MenuItem[] =
     user?.role === "admin" ? adminSidebarItems : userSidebarItems;
 
@@ -88,11 +85,9 @@ const MainLayout = () => {
           </div>
         </div>
 
-        {/* ✅ ডায়নামিকভাবে মেনু দেখাচ্ছি */}
         <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
           {sidebarItems.map((item) => {
             if (item.children) {
-              // If the item has sub-menu, render SubMenu
               return (
                 <SubMenu key={item.key} title={item.label}>
                   {item.children.map((subItem) => (
@@ -109,7 +104,8 @@ const MainLayout = () => {
       <Layout>
         <Header style={{ padding: 0 }} />
         <Content style={{ margin: "24px 16px 0" }}>
-          <div className=""
+          <div
+            className=""
             style={{
               padding: 24,
               minHeight: 688,
@@ -118,7 +114,6 @@ const MainLayout = () => {
             <Outlet />
           </div>
         </Content>
-
       </Layout>
     </Layout>
   );

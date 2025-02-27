@@ -8,7 +8,7 @@ export const orderApi = baseApi.injectEndpoints({
         method: "POST",
         body: orderData,
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Or use the token from your Redux store
+          Authorization: `Bearer ${localStorage.getItem("token")}`, 
         },
       }),
     }),

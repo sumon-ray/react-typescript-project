@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const UpdateCarInfo = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const { id } = useParams<{ id: string }>();
   const {
@@ -29,7 +29,6 @@ const UpdateCarInfo = () => {
     isAvailable: true,
   });
 
-  // Set initial values when product data is fetched
   useEffect(() => {
     if (product) {
       setCarData({
@@ -75,9 +74,8 @@ const UpdateCarInfo = () => {
     try {
       await updateProduct({ id, updatedData });
       message.success("Product updated successfully!");
-      navigate('/dashboard/products')
+      navigate("/dashboard/products");
       refetch();
-
     } catch (err) {
       console.error("Failed to update product:", err);
       toast.error("Failed to update product.");

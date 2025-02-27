@@ -22,9 +22,8 @@ const UpdatePassword = () => {
     const data: PasswordUpdate = { currentPassword, newPassword };
 
     try {
-      const res = await dispatch(updatePassword(data)); // Dispatch Redux action to update password
+      const res = await dispatch(updatePassword(data)); 
 
-      // Check for success or error
       if (res.payload) {
         toast.success("Password updated successfully!");
       } else {

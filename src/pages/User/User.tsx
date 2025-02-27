@@ -2,7 +2,6 @@ import { useAppSelector } from "@/app/hook";
 import { selectUsers } from "@/features/user/userSlice";
 import AddUserModal from "@/module/user/AddUserModal";
 import UserCard from "@/module/user/UserCard";
-// import UserCard from "@/module/user/userCard";
 
 const User = () => {
   const users = useAppSelector(selectUsers);

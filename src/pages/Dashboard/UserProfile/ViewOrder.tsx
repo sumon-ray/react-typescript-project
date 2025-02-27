@@ -14,18 +14,15 @@ interface Order {
 
 const ViewOrder = () => {
   const { data, error, isLoading } = useGetAllOrderQuery(undefined);
-  // console.log(data)
-  // Handle loading state
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  // Handle error state
   if (error) {
     return <div>Error: {JSON.stringify(error)}</div>;
   }
 
-  // Handle empty data
   if (!data || data.length === 0) {
     return <div>No orders found.</div>;
   }

@@ -26,17 +26,16 @@ const ManageUser = () => {
     return <p>Error: {fetchError.status}</p>;
   }
 
-  // ✅ Function to handle block/unblock user
+  // Function to handle block/unblock user
   const handleBlock = async (user: User) => {
     try {
       await blockUser(user._id);
       
-      // ✅ Show toast notification
       toast.success(
         user.isBlocked ? "User unblocked successfully!" : "User blocked successfully!"
       );
 
-      // ✅ Refresh user list after a small delay
+      //  Refresh user list after a small delay
       setTimeout(() => refetch(), 500);
     } catch (error) {
       console.error("Error blocking/unblocking user:", error);

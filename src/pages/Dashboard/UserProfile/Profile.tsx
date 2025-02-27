@@ -22,7 +22,6 @@ const Profile = () => {
             <h2 className="text-xl font-semibold">{user.name}</h2>
             <p className="text-gray-700">Email: {user.email}</p>
             <p className="text-gray-700">Role: {user.role}</p>
-            {/* <p className="text-gray-500">Member since: {user.memberSince}</p> */}
           </div>
         </div>
       ) : (

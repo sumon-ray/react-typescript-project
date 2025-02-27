@@ -39,17 +39,17 @@ const Login = () => {
       // Store in Redux
       dispatch(setUser({ user, token }));
 
-      message.success("Login successful!"); // Success toast
+      message.success("Login successful!"); 
       navigate("/");
     } catch (error) {
-      message.error("Login failed! Please check your credentials."); // Error toast
+      message.error("Login failed! Please check your credentials."); 
     }
   };
 
   return (
     <div className="flex h-screen">
- <div className="flex-1 hidden md:flex relative"> {/* Added relative positioning */}
-        <img src={image} className="object-cover h-screen w-full" alt="Signup" /> {/* object-cover ensures image covers full area */}
+ <div className="flex-1 hidden md:flex relative"> 
+        <img src={image} className="object-cover h-screen w-full" alt="Signup" />
       </div>
 
 

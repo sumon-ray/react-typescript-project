@@ -41,7 +41,9 @@ const Banner = () => {
         {slideData.map((item) => {
           return (
             <SwiperSlide key={item.title}>
-              <div className={`sliderBg lg:p-[30px] p-[10px] flex flex-col justify-center md:h-[500px] `}>
+              <div
+                className={`sliderBg lg:p-[30px] p-[10px] flex flex-col justify-center md:h-[500px] `}
+              >
                 <div className="lg:flex justify-between items-center gap-[25px]">
                   <div className="lg:w-[50%] space-y-8">
                     <h2 className="lg:text-[40px] text-[25px] text-white">

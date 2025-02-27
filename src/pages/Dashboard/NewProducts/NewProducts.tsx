@@ -1,7 +1,7 @@
 import { useDeleteProductMutation } from "@/features/delete/deleteCar";
 import { useGetAllProductQuery } from "@/features/products/getAllproductApi";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify"; // Assuming you're using this for notifications
+import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 const NewProducts = () => {
   const navigate = useNavigate();
@@ -15,7 +15,6 @@ const NewProducts = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      // Use SweetAlert2 for confirmation
       const result = await Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -27,13 +26,12 @@ const NewProducts = () => {
       });
 
       if (result.isConfirmed) {
-        // Proceed with deletion if user confirmed
         await deleteProduct(id);
-        toast.success("Car deleted successfully!"); // Show success toast
-        refetch(); // Refetch after deletion to get the latest data
+        toast.success("Car deleted successfully!");
+        refetch();
       }
     } catch (err) {
-      toast.error("Failed to delete car."); // Show error toast
+      toast.error("Failed to delete car.");
     }
   };
 
